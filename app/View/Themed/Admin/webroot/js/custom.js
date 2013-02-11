@@ -509,11 +509,11 @@ $(function () {
             
                 var insertLineLink="\
                 <tr>\n\
-                        <input type='hidden' id='Productpreparat" + uid + "PreparatUid' value='" + preparat_uid + "' name='data[Productpreparat][" + uid + "][preparat_uid]'>\n\
+                        <input type='hidden' id='Analog" + uid + "PreparatUid' value='" + preparat_uid + "' name='data[Analog][" + uid + "][preparat_uid]'>\n\
                         <td>" + namec + "</td>\n\
                         <td align='center'>\n\
-                                <input type='hidden' value='0' id='Productpreparat" + uid + "Delete_' name='data[Productpreparat][" + uid + "][delete]'>\n\
-                                <input type='checkbox' id='Productpreparat" + uid + "Delete' value='1' name='data[Productpreparat][" + uid + "][delete]'>\n\
+                                <input type='hidden' value='0' id='Analog" + uid + "Delete_' name='data[Analog][" + uid + "][delete]'>\n\
+                                <input type='checkbox' id='Analog" + uid + "Delete' value='1' name='data[Analog][" + uid + "][delete]'>\n\
                         </td>\n\
                 </tr>";
                 

@@ -1,55 +1,58 @@
 <?php
 
-  App::uses('AppModel', 'Model');
+App::uses('AppModel', 'Model');
 
-  /**
-   * Product Model
-   *
-   * @property Productpreparat $Productpreparat
-   */
-  class Product extends AppModel {
+/**
+ * Product Model
+ *
+ * @property Productpreparat $Productpreparat
+ */
+class Product extends AppModel {
 
-      /**
-       * Display field
-       *
-       * @var string
-       */
-      public $displayField = 'title';
-      
-	public $belongsTo = array(
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'title';
 
-		'Preparat' => array(
-			'className' => 'Preparat',
-			'foreignKey' => 'preparat_uid',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
+    public $belongsTo = array(
+        'Preparat' => array(
+            'className' => 'Preparat',
+            'foreignKey' => 'preparat_uid',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
+    );
+    //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-      //The Associations below have been created with all possible keys, those that are not needed can be removed
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'Preparats1' => array(
+            'className' => 'Preparat',
+            'foreignKey' => 'preparat_uid',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'Analog' => array(
+            'className' => 'Analog',
+            'foreignKey' => 'product_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
+    );
+}
 
-      /**
-       * hasMany associations
-       *
-       * @var array
-       */
-      public $hasMany = array(
-          'Productpreparat' => array(
-              'className' => 'Productpreparat',
-              'foreignKey' => 'product_id',
-              'dependent' => false,
-              'conditions' => '',
-              'fields' => '',
-              'order' => '',
-              'limit' => '',
-              'offset' => '',
-              'exclusive' => '',
-              'finderQuery' => '',
-              'counterQuery' => ''
-          )
-      );
-
-  }
-
-  
