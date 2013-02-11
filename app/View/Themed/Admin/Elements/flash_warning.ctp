@@ -1,0 +1,1 @@
+<div class="message warning"><p><?= $message ?></p></div>
