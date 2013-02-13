@@ -7,11 +7,11 @@ $controller = ucfirst($this->params->controller);
             <td id="rubric_<?= $element[$model]['id'] ?>" style="padding-left:<?= 16 + $level * 16 ?>px">
                 <?= $this->Html->image('/images/icons/16/open.png', array('alt' => $model)); ?>
                 <? if (!empty($current_cat[$model]['id']) && $current_cat[$model]['id'] == $element[$model]['id']): ?>
-                    <span class="active" style="color:red;"><?= $element[$model]['name']; ?></span>
+                    <span class="active" style="color:red;"><?= $element[$model]['title']; ?></span>
                 <? elseif ($element[$model]['active'] == 0): ?>
-                    <a href="<?= $this->Html->url(array("controller" => $this->params->controller, "action" => "index", $element[$model]['id'])); ?>"><s><?= $element[$model]['name']; ?></s></a>
+                    <a href="<?= $this->Html->url(array("controller" => $this->params->controller, "action" => "index", $element[$model]['id'])); ?>"><s><?= $element[$model]['title']; ?></s></a>
                 <? else: ?>
-                    <a href="<?= $this->Html->url(array("controller" => $this->params->controller, "action" => "index", $element[$model]['id'])); ?>"><?= $element[$model]['name']; ?></a>
+                    <a href="<?= $this->Html->url(array("controller" => $this->params->controller, "action" => "index", $element[$model]['id'])); ?>"><?= $element[$model]['title']; ?></a>
                 <? endif; ?> 
             </td>
             <?php if (CakeSession::read('Auth.User.role_id') == 0): ?>

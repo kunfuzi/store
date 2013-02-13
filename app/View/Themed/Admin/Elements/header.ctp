@@ -6,9 +6,8 @@
     <ul id="nav">
         <?php if (CakeSession::read('Auth.User.role_id') == 0): ?>
 
-              <li>
-                  <?= $this->Html->link('Препараты', array('controller' => 'preparats')); ?>
-              </li>
+              <li><?= $this->Html->link('Категории', array('controller' => 'categories')); ?></li>
+              <li><?= $this->Html->link('Препараты', array('controller' => 'preparats')); ?></li>
               <li>
                   <?= $this->Html->link('Страницы', array('controller' => 'pages')); ?>
               </li>

@@ -75,13 +75,19 @@
         <h2>Разное</h2>
 
         <ul class="tabs">
-            <li class="nobg"><a href="#analogs">Аналоги</a></li>
+            <li class="nobg"><a href="#categories">Категории</a></li>
+            <li><a href="#analogs">Аналоги</a></li>
             <li><a href="#tags">Теги</a></li>
             <li><a href="#ills">Болезни</a></li>
             <li><a href="#symptoms">Симптомы</a></li>
         </ul>
 
     </div>		<!-- .block_head ends -->
+
+    <div class="block_content tab_content" id="categories">
+
+        <!-- .block_content ends -->
+    </div>
 
     <div class="block_content tab_content" id="analogs">
         <? // pr($this->request->data) ?>
@@ -106,17 +112,17 @@
             </thead>
             <tbody>
                 <? if (isset($this->request->data['Analog'])): ?>
-                    <? foreach ($this->request->data['Analog'] as $link): ?>
-                        <tr>
-                            <?= $this->Form->hidden("Analog.{$link['id']}.id", array('value' => $link['id'])); ?>
-                            <?= $this->Form->hidden("Analog.{$link['id']}.preparat_uid", array('value' => $link['Preparat']['uid'])); ?>
-                            <td><?= $link['Preparat']['namec'] ?></td>
-                            <td align="center">
-                                <?= $this->Form->checkbox("Analog.{$link['id']}.delete") ?>
-                            </td>
-                        </tr>
-                    <? endforeach; ?>
-                <? endif; ?>
+                      <? foreach ($this->request->data['Analog'] as $link): ?>
+                          <tr>
+                              <?= $this->Form->hidden("Analog.{$link['id']}.id", array('value' => $link['id'])); ?>
+                              <?= $this->Form->hidden("Analog.{$link['id']}.preparat_uid", array('value' => $link['Preparat']['uid'])); ?>
+                              <td><?= $link['Preparat']['namec'] ?></td>
+                              <td align="center">
+                                  <?= $this->Form->checkbox("Analog.{$link['id']}.delete") ?>
+                              </td>
+                          </tr>
+                      <? endforeach; ?>
+                  <? endif; ?>
             </tbody>
         </table>
 
@@ -163,11 +169,61 @@
     <div class="block_head">
         <div class="bheadl"></div>
         <div class="bheadr"></div>
+        <h2>Остатки</h2>        
+    </div>		<!-- .block_head ends -->
+
+    <div class="block_content">
+        <? // pr($all_preparats) ?>
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <th>Наименование</th>
+                <th>codeall</th>
+                <th>Код</th>
+                <th>Код партии</th>
+                <th>Серия</th>
+                <th>Остаток</th>
+                <th>Цена</th>
+                <th>НДС</th>
+                <th>reestr</th>
+                <th>Годен</th>
+                <th>Произведено</th>
+            </tr>
+            <?php foreach ($all_preparats as $preparat): ?>
+                  <tr>
+                      <td>
+                          <?php echo h($preparat['Preparat']['namec']); ?><br>
+                          <i><?php echo h($preparat['Preparat']['zavod']); ?></i>
+                      </td>
+                      <td><?php echo h($preparat['Preparat']['codeall']); ?>&nbsp;</td>
+                      <td><?php echo h($preparat['Preparat']['code']); ?>&nbsp;</td>
+                      <td><?php echo h($preparat['Preparat']['codepart']); ?>&nbsp;</td>
+                      <td><?php echo h($preparat['Preparat']['seria']); ?>&nbsp;</td>
+                      <td><?php echo h($preparat['Preparat']['ost']); ?>&nbsp;</td>
+                      <td><?php echo h($preparat['Preparat']['cenaoptk']); ?>&nbsp;</td>
+                      <td><?php echo h($preparat['Preparat']['nds']); ?>&nbsp;</td>
+                      <td><?php echo h($preparat['Preparat']['reestr']); ?>&nbsp;</td>
+                      <td><?php echo h($preparat['Preparat']['godnost']); ?>&nbsp;</td>
+                      <td><?php echo h($preparat['Preparat']['d_post']); ?>&nbsp;</td>
+                  </tr>
+              <?php endforeach; ?>
+        </table>
+    </div>
+
+    <div class="bendl"></div>
+    <div class="bendr"></div>
+
+</div>		<!-- .block ends -->
+
+<div class="block">
+
+    <div class="block_head">
+        <div class="bheadl"></div>
+        <div class="bheadr"></div>
         <h2>Описание</h2>        
     </div>		<!-- .block_head ends -->
 
     <div class="block_content">
-        <? pr($this->request->data); ?>
+        <? // pr($this->request->data); ?>
         <p>
             <?= $this->Cksource->ckeditor('Product.description', array('value' => $this->request->data['Product']['description'], 'escape' => false)); ?>
         </p>
@@ -200,94 +256,94 @@
 
     <div class="block_content tab_content" id="images">
         <? /* //pr($array)   ?>
-          <?
-          $i = 1;
-          if (!isset($array))
-          $array['Object_photo'] = array();
-          ?>
-          <? foreach ($array['Object_photo'] as $image): ?>
-          <table width="100%">
-          <tr>
-          <td style="width: 300px;max-width: 300px;" valign="top">
-          <h2>Фотография объекта №<?= $i ?></h2>
+            <?
+            $i = 1;
+            if (!isset($array))
+            $array['Object_photo'] = array();
+            ?>
+            <? foreach ($array['Object_photo'] as $image): ?>
+            <table width="100%">
+            <tr>
+            <td style="width: 300px;max-width: 300px;" valign="top">
+            <h2>Фотография объекта №<?= $i ?></h2>
 
 
-          <?
-          $thumbnail = $this->PhpThumb->generate(
-          array(
-          'save_path' => WWW_ROOT . 'media/thumbs/300x225',
-          'display_path' => '/media/thumbs/300x225',
-          'error_image_path' => '/i/no-img-300x225.png',
-          'src' => WWW_ROOT . $image['filename'],
-          // From here on out, you can pass any standard phpThumb parameters
-          'w' => 300,
-          'h' => 225,
-          'q' => 100,
-          'zc' => 0
-          )
-          );
-          ?>
+            <?
+            $thumbnail = $this->PhpThumb->generate(
+            array(
+            'save_path' => WWW_ROOT . 'media/thumbs/300x225',
+            'display_path' => '/media/thumbs/300x225',
+            'error_image_path' => '/i/no-img-300x225.png',
+            'src' => WWW_ROOT . $image['filename'],
+            // From here on out, you can pass any standard phpThumb parameters
+            'w' => 300,
+            'h' => 225,
+            'q' => 100,
+            'zc' => 0
+            )
+            );
+            ?>
 
-          <?
-          $thumbnailX = $this->PhpThumb->generate(
-          array(
-          'save_path' => WWW_ROOT . 'media/thumbs/800x600x2',
-          'display_path' => '/media/thumbs/800x600x2',
-          'error_image_path' => '/i/no-img-800x600.png',
-          'src' => WWW_ROOT . $image['filename'],
-          // From here on out, you can pass any standard phpThumb parameters
-          'w' => 800,
-          'h' => 600,
-          'q' => 100,
-          'zc' => 0
-          )
-          );
-          ?>
+            <?
+            $thumbnailX = $this->PhpThumb->generate(
+            array(
+            'save_path' => WWW_ROOT . 'media/thumbs/800x600x2',
+            'display_path' => '/media/thumbs/800x600x2',
+            'error_image_path' => '/i/no-img-800x600.png',
+            'src' => WWW_ROOT . $image['filename'],
+            // From here on out, you can pass any standard phpThumb parameters
+            'w' => 800,
+            'h' => 600,
+            'q' => 100,
+            'zc' => 0
+            )
+            );
+            ?>
 
 
 
-          <?= $this->Html->link($this->Html->image($thumbnail['src'], array('style' => 'width:300px;')), $thumbnailX['src'], array('rel' => 'facebox', 'escape' => false)) ?>
-          </td>
-          <td style="width: 350px;max-width: 350px;">
-          <?= $this->Form->input("Object_photo.{$image['id']}.id", array('value' => $image['id'], 'type' => 'hidden')); ?>
-          <?= $this->Form->input("Object_photo.{$image['id']}.filename", array('value' => $image['filename'], 'type' => 'hidden')); ?>
-          <?= $this->Form->input("Object_photo.{$image['id']}.title", array('value' => $image['title'], 'type' => 'text', 'class' => 'text', 'div' => array('class' => 'form'), 'label' => array('text' => __('Описание (Description)', true)))); ?>
-          <?= $this->Form->input("Object_photo.{$image['id']}.weight", array('value' => $image['weight'], 'type' => 'text', 'class' => 'text little', 'div' => array('class' => 'form'), 'label' => array('text' => __('Ширина (Weight)', true)))); ?>
-          <?= $this->Form->input("Object_photo.{$image['id']}.active", array('checked' => $image['active'], 'type' => 'checkbox', 'class' => 'checkbox', 'div' => array('class' => 'form'), 'label' => array('style' => 'display:inline;', 'text' => ' ' . __('Изображение активно', true)))); ?>
-          <?= $this->Form->input("Object_photo.{$image['id']}.delete", array('checked' => false, 'type' => 'checkbox', 'class' => 'checkbox', 'div' => array('class' => 'form'), 'label' => array('style' => 'display:inline;', 'text' => ' ' . __('Удалить', true)))); ?>
-          </td>
-          </tr>
-          </table>
-          <? $i++; ?>
-          <? endforeach; ?>
-          </div>
+            <?= $this->Html->link($this->Html->image($thumbnail['src'], array('style' => 'width:300px;')), $thumbnailX['src'], array('rel' => 'facebox', 'escape' => false)) ?>
+            </td>
+            <td style="width: 350px;max-width: 350px;">
+            <?= $this->Form->input("Object_photo.{$image['id']}.id", array('value' => $image['id'], 'type' => 'hidden')); ?>
+            <?= $this->Form->input("Object_photo.{$image['id']}.filename", array('value' => $image['filename'], 'type' => 'hidden')); ?>
+            <?= $this->Form->input("Object_photo.{$image['id']}.title", array('value' => $image['title'], 'type' => 'text', 'class' => 'text', 'div' => array('class' => 'form'), 'label' => array('text' => __('Описание (Description)', true)))); ?>
+            <?= $this->Form->input("Object_photo.{$image['id']}.weight", array('value' => $image['weight'], 'type' => 'text', 'class' => 'text little', 'div' => array('class' => 'form'), 'label' => array('text' => __('Ширина (Weight)', true)))); ?>
+            <?= $this->Form->input("Object_photo.{$image['id']}.active", array('checked' => $image['active'], 'type' => 'checkbox', 'class' => 'checkbox', 'div' => array('class' => 'form'), 'label' => array('style' => 'display:inline;', 'text' => ' ' . __('Изображение активно', true)))); ?>
+            <?= $this->Form->input("Object_photo.{$image['id']}.delete", array('checked' => false, 'type' => 'checkbox', 'class' => 'checkbox', 'div' => array('class' => 'form'), 'label' => array('style' => 'display:inline;', 'text' => ' ' . __('Удалить', true)))); ?>
+            </td>
+            </tr>
+            </table>
+            <? $i++; ?>
+            <? endforeach; ?>
+            </div>
 
-          <div class="block_content tab_content" id="add_images">
+            <div class="block_content tab_content" id="add_images">
 
-          <?
-          for ($i = 1; $i <= 5; $i++):
-          ?>
-          <h2>Добавить изображение <?= $i ?></h2>
+            <?
+            for ($i = 1; $i <= 5; $i++):
+            ?>
+            <h2>Добавить изображение <?= $i ?></h2>
 
-          <? $uniq = uniqid() ?>
+            <? $uniq = uniqid() ?>
 
-          <table >
-          <tr>
-          <td width="350">
-          <?= $this->Form->label('Object_photo.label_filename', __('Выбор файла', true)) ?>
-          <?= $this->Form->input("Object_photo.{$uniq}.filename", array('type' => 'file', 'class' => 'file', 'div' => array('class' => 'form'), 'label' => false)); ?>
-          </td>
-          <td>
-          <?= $this->Form->input("Object_photo.{$uniq}.title", array('value' => false, 'type' => 'text', 'class' => 'text medium', 'style' => 'width:300px;', 'div' => array('class' => 'form'), 'label' => array('text' => __('Описание (Description)', true)))); ?>
-          </td>
-          <td>
-          <?= $this->Form->input("Object_photo.{$uniq}.weight", array('value' => false, 'type' => 'text', 'class' => 'text little', 'div' => array('class' => 'form'), 'label' => array('text' => __('Ширина (Weight)', true)))); ?>
-          </td>
-          </tr>
-          </table>
+            <table >
+            <tr>
+            <td width="350">
+            <?= $this->Form->label('Object_photo.label_filename', __('Выбор файла', true)) ?>
+            <?= $this->Form->input("Object_photo.{$uniq}.filename", array('type' => 'file', 'class' => 'file', 'div' => array('class' => 'form'), 'label' => false)); ?>
+            </td>
+            <td>
+            <?= $this->Form->input("Object_photo.{$uniq}.title", array('value' => false, 'type' => 'text', 'class' => 'text medium', 'style' => 'width:300px;', 'div' => array('class' => 'form'), 'label' => array('text' => __('Описание (Description)', true)))); ?>
+            </td>
+            <td>
+            <?= $this->Form->input("Object_photo.{$uniq}.weight", array('value' => false, 'type' => 'text', 'class' => 'text little', 'div' => array('class' => 'form'), 'label' => array('text' => __('Ширина (Weight)', true)))); ?>
+            </td>
+            </tr>
+            </table>
 
-          <hr />
-          <? endfor; */ ?>
+            <hr />
+            <? endfor; */ ?>
 
         <br />
 
