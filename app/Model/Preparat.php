@@ -39,8 +39,8 @@ class Preparat extends AppModel {
 //              'finderQuery' => '',
 //              'counterQuery' => ''
 //          ),
-//          'Productpreparat' => array(
-//              'className' => 'Productpreparat',
+//          'ProductsPreparat' => array(
+//              'className' => 'ProductsPreparat',
 //              'foreignKey' => 'preparat_uid',
 //              'dependent' => false,
 //              'conditions' => '',

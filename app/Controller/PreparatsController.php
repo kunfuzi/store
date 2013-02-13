@@ -20,7 +20,7 @@ class PreparatsController extends AppController {
     public function admin_index() {
         $type = 'LEFT';
         $join_where = '';
-        $this->Preparat->unbindModel(array('hasMany' => array('Order', 'Productpreparat')));
+        $this->Preparat->unbindModel(array('hasMany' => array('Order', 'ProductsPreparat')));
 
         if (isset($this->request->params['named']['show'])) {
             switch ($this->request->params['named']['show']) {

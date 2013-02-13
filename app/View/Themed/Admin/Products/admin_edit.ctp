@@ -16,7 +16,9 @@
 
     <div class="block_content tab_content" id="basic-tab">
 
-        <p><?= $this->Form->input("Preparat.namec", array('class' => 'text', 'readonly' => 'readonly', 'style' => 'color:#777;', 'label' => 'Наименование в 1С')) ?></p>
+        <p><?= $this->Form->input("namec", array('class' => 'text', 'readonly' => 'readonly', 'style' => 'color:#777;', 'label' => 'Наименование в 1С')) ?></p>
+
+        <p><?= $this->Form->input("zavod", array('class' => 'text', 'label' => 'Производитель')) ?></p>
 
         <p><?= $this->Form->input('title', array('class' => 'text necessary', 'label' => 'Наименование в интернет-аптеке')); ?></p>
 
@@ -90,7 +92,6 @@
     </div>
 
     <div class="block_content tab_content" id="analogs">
-        <? // pr($this->request->data) ?>
         <table width="100%">
             <tr>
                 <td>
@@ -173,7 +174,7 @@
     </div>		<!-- .block_head ends -->
 
     <div class="block_content">
-        <? // pr($all_preparats) ?>
+        <? pr($this->request->data) ?>
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
                 <th>Наименование</th>
@@ -223,7 +224,7 @@
     </div>		<!-- .block_head ends -->
 
     <div class="block_content">
-        <? // pr($this->request->data); ?>
+        <? //pr($this->request->data); ?>
         <p>
             <?= $this->Cksource->ckeditor('Product.description', array('value' => $this->request->data['Product']['description'], 'escape' => false)); ?>
         </p>

@@ -3,7 +3,7 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Productpreparat Model
+ * Analog Model
  *
  * @property Product $Product
  * @property Preparat $Preparat

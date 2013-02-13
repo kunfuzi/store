@@ -27,11 +27,7 @@
        * @return void
        */
       public function admin_edit($id = null) {
-//          if (!$this->Product->exists($id)) {
-//              throw new NotFoundException(__('Продукт не найден'));
-//          }
-          // Сохранение
-          if ($this->request->is('post') || $this->request->is('put')) {
+          if ($this->request->is('post') || $this->request->is('put')) { // Сохранение
               if ($this->Product->save($this->request->data)) {
 
                   if ($this->request->data['Product']['id'])
@@ -66,28 +62,55 @@
               } else {
                   $this->Session->setFlash(__('Продукт не сохранен.'), 'flash_error');
               }
-          } elseif ($this->Product->exists($id)) { //Если запрошен существующий товар
+          } elseif ($this->Product->exists($id)) { //Если запрошен товар существующий
+              $this->Product->CategoriesProduct->unbindModel(array(
+                  'belongsTo' => array('Product'),
+              ));
+
+              $this->Product->ProductsPreparat->unbindModel(array(
+                  'belongsTo' => array('Product'),
+              ));
+
               $options = array('conditions' => array('Product.' . $this->Product->primaryKey => $id));
+
               $this->Product->recursive = 2;
+
               $this->request->data = $this->Product->find('first', $options);
+
+//              pr($this->request->data);
           } else if (isset($this->request->params['named']['preparat_uid'])) {
 
-              $this->Product->Preparat->unbindModel(array(
+              $this->Product->ProductsPreparat->Preparat->unbindModel(array(
                   'belongsTo' => array('Product'),
                   'hasMany' => array('Order', 'Analog'),
               ));
-              $this->request->data = $this->Product->Preparat->findByUid($this->request->params['named']['preparat_uid']);
+
+              // поиск данных при создании связи препарата с продуктом
+              $this->request->data = $this->Product->ProductsPreparat->Preparat->findByUid($this->request->params['named']['preparat_uid']);
+
               $this->request->data['Product'] = array(
                   'active' => 1,
                   'preparat_uid' => $this->request->params['named']['preparat_uid'],
                   'title' => $this->request->data['Preparat']['namec'],
+                  'namec' => $this->request->data['Preparat']['namec'],
+                  'zavod' => $this->request->data['Preparat']['zavod'],
                   'description' => ''
               );
           }
+
           if (isset($this->request->params['named']['preparat_uid'])) {
-              $all_preparats = $this->Product->Preparat->find('all', array('conditions' => array('Preparat.uid' => $this->request->params['named']['preparat_uid'])));
+              $all_preparats = $this->Product->ProductsPreparat->Preparat->find('all', array('conditions' => array('Preparat.uid' => $this->request->params['named']['preparat_uid'])));
               $this->set(compact('all_preparats'));
           }
+
+          // get all categories
+//          $this->Product->CategoriesProduct->Category->unbindModel(array(
+//              'hasMany' => array('CategoriesProduct')
+//          ));
+
+          $cat = $this->Product->CategoriesProduct->Category->find('threaded', array('condition' => array('active' => 1)));
+          pr($cat);
+
 
 //          $preparat_uids = $this->Product->Preparat->find('list', array('fields' => array('Preparat.uid', 'Preparat.namec')));
 //          $this->set('preparat_uids', $preparat_uids);

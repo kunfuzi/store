@@ -111,3 +111,5 @@ a.desc {
     background-repeat: no-repeat;
     padding-right: 20px;
 } 
+
+input.required {border-left: 1px solid red !important}

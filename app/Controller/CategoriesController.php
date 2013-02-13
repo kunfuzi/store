@@ -15,11 +15,28 @@
        * @return void
        */
       public function admin_index($id = '') {
+          $this->Category->recursive = 0;
           $current_cat = array('Category' => array('id' => 0));
           $this->set('categories', $this->Category->find('threaded'));
 
-          if (!empty($id))
+          if (!empty($id)) {
+              $this->Category->recursive = 4;
+
+              $this->Category->CategoriesProduct->Category->CategoriesProduct->unbindModel(array(
+                  'belongsTo' => array('Category')
+              ));
+
+              $this->Category->CategoriesProduct->Product->unbindModel(array(
+                  'hasMany' => array('CategoriesProduct', 'Analog')
+              ));
+
+              $this->Category->CategoriesProduct->Product->ProductsPreparat->unbindModel(array(
+                  'belongsTo' => array('Product')
+              ));
+
               $current_cat = $this->Category->find('first', array('conditions' => array('id' => $id)));
+          }
+          // ищем все продукты для этой категории
 
           $this->set('current_cat', $current_cat);
       }
@@ -32,21 +49,26 @@
        * @return void
        */
       public function admin_edit($id = null) {
-          if (!$this->Category->exists($id)) {
-              throw new NotFoundException(__('Invalid category'));
-          }
           if ($this->request->is('post') || $this->request->is('put')) {
               if ($this->Category->save($this->request->data)) {
-                  $this->Session->setFlash(__('The category has been saved'));
-                  $this->redirect(array('action' => 'index'));
+                  $this->Session->setFlash(__('Категория сохранена'), 'flash_success');
+                  $this->redirect(array('action' => 'index', $this->request->data['Category']['parent_id']));
               } else {
-                  $this->Session->setFlash(__('The category could not be saved. Please, try again.'));
+                  $this->Session->setFlash(__('The category could not be saved. Please, try again.'), 'flash_error');
               }
-          } else {
+          } else if ($this->Category->exists($id)) {
               $options = array('conditions' => array('Category.' . $this->Category->primaryKey => $id));
               $this->request->data = $this->Category->find('first', $options);
+          } else {
+              if (isset($this->request->params['named']['parent_id']))
+                  $this->request->data = array(
+                      'Category' => array(
+                          'parent_id' => $this->request->params['named']['parent_id'],
+                          'active' => 1
+                      )
+                  );
           }
-          $this->set('parents', $this->Category->find('list', array('conditions' => array('Category.parent_id' => NULL))));
+          $this->set('parents', $this->Category->generateTreeList(null, null, null, '&nbsp;&nbsp;&nbsp;'));
       }
 
       /**

@@ -1,11 +1,11 @@
 <?php
-App::uses('ProductsPreparat', 'Model');
+App::uses('CategoriesProduct', 'Model');
 
 /**
- * ProductsPreparat Test Case
+ * CategoriesProduct Test Case
  *
  */
-class ProductsPreparatTest extends CakeTestCase {
+class CategoriesProductTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -13,12 +13,12 @@ class ProductsPreparatTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.ProductsPreparat',
+		'app.CategoriesProduct',
+		'app.category',
 		'app.product',
 		'app.analog',
 		'app.preparat',
-		'app.CategoriesProduct',
-		'app.category'
+		'app.ProductsPreparat'
 	);
 
 /**
@@ -28,7 +28,7 @@ class ProductsPreparatTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->ProductsPreparat = ClassRegistry::init('ProductsPreparat');
+		$this->CategoriesProduct = ClassRegistry::init('CategoriesProduct');
 	}
 
 /**
@@ -37,7 +37,7 @@ class ProductsPreparatTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->ProductsPreparat);
+		unset($this->CategoriesProduct);
 
 		parent::tearDown();
 	}

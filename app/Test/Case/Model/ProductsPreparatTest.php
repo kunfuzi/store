@@ -13,12 +13,13 @@ class ProductsPreparatTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.ProductsPreparat',
+		'app.products_preparat',
 		'app.product',
 		'app.analog',
 		'app.preparat',
 		'app.CategoriesProduct',
-		'app.category'
+		'app.category',
+		'app.ProductsPreparat'
 	);
 
 /**

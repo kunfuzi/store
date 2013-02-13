@@ -28,7 +28,7 @@
                           <?= $this->Html->link(h($product['Product']['title']), array('action' => 'edit', $product['Product']['id'])); ?>
                       </td>
                       <td><?= String::truncate(h(strip_tags($product['Product']['description']))); ?>&nbsp;</td>
-                      <td><?= count($product['Productpreparat']) ?></td>
+                      <td><?= count($product['ProductsPreparat']) ?></td>
                       <td class="actions">
                           <?= $this->Form->postLink(__('Delete'), array('action' => 'delete', $product['Product']['id']), null, __('Are you sure you want to delete # %s?', $product['Product']['id'])); ?>
                       </td>
